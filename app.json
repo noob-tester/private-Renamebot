@@ -7,9 +7,6 @@
         "rename",
         "pyrogram"
     ],
-    "success_url": "https://github.com/FayasNoushad",
-    "website": "https://githib.com/FayasNoushad/FayasNoushad",
-    "repository": "https://github.com/FayasNoushad/Rename-Bot",
     "env": {
         "WEBHOOK": {
             "description": "Setting this to ANYTHING will enable webhooks when in env mode",
