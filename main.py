@@ -26,6 +26,7 @@ from database import *
 DOWNLOAD_LOCATION = "./DOWNLOADS"
 AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "").split( ))
 PROCESS_MAX_TIMEOUT = int(os.environ.get("TIME_LIMIT"))
+PRIVATE = bool(os.environ.get("PRIVATE", False))
 ADL_BOT_RQ = {}
 START_TEXT = """
 Hello {} , I'am a simple file or media rename bot with permanent thumbnail support.
