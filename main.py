@@ -88,14 +88,14 @@ if __name__ == "__main__" :
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
 
-FayasNoushad = Client(
+Bot = Client(
     "Rename Bot",
     bot_token=os.environ.get("BOT_TOKEN"),
     api_id=int(os.environ.get("APP_ID", 12345)),
     api_hash=os.environ.get("API_HASH")
 )
 
-@FayasNoushad.on_callback_query(filters.user(AUTH_USERS) if PRIVATE else None)
+@Bot.on_callback_query(filters.user(AUTH_USERS) if PRIVATE else None)
 async def cb_handler(bot, update):
     if update.data == "home":
         await update.message.edit_text(
@@ -126,7 +126,7 @@ async def cb_handler(bot, update):
     else:
         await update.message.delete()
 
-@FayasNoushad.on_message(
+@Bot.on_message(
     filters.command(["start"]) &
     filters.user(AUTH_USERS) if PRIVATE else None
 )
@@ -139,7 +139,7 @@ async def start(bot, update):
         reply_to_message_id=update.message_id
     )
 
-@FayasNoushad.on_message(
+@Bot.on_message(
     filters.photo &
     filters.user(AUTH_USERS) if PRIVATE else None
 )
@@ -169,7 +169,7 @@ async def save_photo(bot, update):
             reply_to_message_id=update.message_id
         )
 
-@FayasNoushad.on_message(
+@Bot.on_message(
     filters.command(["delthumb"]) &
     filters.user(AUTH_USERS) if PRIVATE else None
 )
@@ -191,7 +191,7 @@ async def delete_thumbnail(bot, update):
         reply_to_message_id=update.message_id
     )
 
-@FayasNoushad.on_message(
+@Bot.on_message(
     filters.command(["showthumb"]) &
     filters.user(AUTH_USERS) if PRIVATE else None
 )
@@ -222,7 +222,7 @@ async def show_thumb(bot, update):
             reply_to_message_id=update.message_id
         )
 
-@FayasNoushad.on_message(
+@Bot.on_message(
     filters.private & (
         filters.audio |
         filters.document |
@@ -267,7 +267,7 @@ async def filter(bot, update):
         disable_web_page_preview=True
     )
 
-@FayasNoushad.on_message(
+@Bot.on_message(
     filters.private &
     filters.reply &
     filters.text &
@@ -387,4 +387,4 @@ async def rename(bot, message):
             await bot.send_message(chat_id=message.chat.id, text="You're not Authorized to do that!", reply_to_message_id=message.message_id)
 
 
-FayasNoushad.run()
+Bot.run()
