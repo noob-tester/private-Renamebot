@@ -95,7 +95,7 @@ FayasNoushad = Client(
     api_hash=os.environ.get("API_HASH")
 )
 
-@FayasNoushad.on_callback_query()
+@FayasNoushad.on_callback_query(filters.user(AUTH_USERS) if PRIVATE else None)
 async def cb_handler(bot, update):
     if update.data == "home":
         await update.message.edit_text(
@@ -126,7 +126,10 @@ async def cb_handler(bot, update):
     else:
         await update.message.delete()
 
-@FayasNoushad.on_message(filters.command(["start"]))
+@FayasNoushad.on_message(
+    filters.command(["start"]) &
+    filters.user(AUTH_USERS) if PRIVATE else None
+)
 async def start(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
@@ -136,7 +139,10 @@ async def start(bot, update):
         reply_to_message_id=update.message_id
     )
 
-@FayasNoushad.on_message(filters.photo)
+@FayasNoushad.on_message(
+    filters.photo &
+    filters.user(AUTH_USERS) if PRIVATE else None
+)
 async def save_photo(bot, update):
     if update.media_group_id is not None:
         # album is sent
@@ -163,7 +169,10 @@ async def save_photo(bot, update):
             reply_to_message_id=update.message_id
         )
 
-@FayasNoushad.on_message(filters.command(["delthumb"]))
+@FayasNoushad.on_message(
+    filters.command(["delthumb"]) &
+    filters.user(AUTH_USERS) if PRIVATE else None
+)
 async def delete_thumbnail(bot, update):
     thumb_image_path = DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".jpg"
     #download_location = DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
@@ -182,7 +191,10 @@ async def delete_thumbnail(bot, update):
         reply_to_message_id=update.message_id
     )
 
-@FayasNoushad.on_message(filters.command(["showthumb"]))
+@FayasNoushad.on_message(
+    filters.command(["showthumb"]) &
+    filters.user(AUTH_USERS) if PRIVATE else None
+)
 async def show_thumb(bot, update):
     thumb_image_path = DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".jpg"
     if not os.path.exists(thumb_image_path):
@@ -210,7 +222,17 @@ async def show_thumb(bot, update):
             reply_to_message_id=update.message_id
         )
 
-@FayasNoushad.on_message(filters.private & (filters.audio | filters.document | filters.animation | filters.video | filters.voice | filters.video_note))
+@FayasNoushad.on_message(
+    filters.private & (
+        filters.audio |
+        filters.document |
+        filters.animation |
+        filters.video |
+        filters.voice |
+        filters.video_note
+    ) &
+    filters.user(AUTH_USERS) if PRIVATE else None
+)
 async def filter(bot, update):
     if update.from_user.id not in AUTH_USERS:
         if str(update.from_user.id) in ADL_BOT_RQ:
@@ -245,7 +267,12 @@ async def filter(bot, update):
         disable_web_page_preview=True
     )
 
-@FayasNoushad.on_message(filters.private & filters.reply & filters.text)
+@FayasNoushad.on_message(
+    filters.private &
+    filters.reply &
+    filters.text &
+    filters.user(AUTH_USERS) if PRIVATE else None
+)
 async def cus_name(bot, message):
     if (message.reply_to_message.reply_markup) and isinstance(message.reply_to_message.reply_markup, ForceReply):
         asyncio.create_task(rename(bot, message))
