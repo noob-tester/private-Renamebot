@@ -30,13 +30,13 @@ PRIVATE = bool(os.environ.get("PRIVATE", False))
 ADL_BOT_RQ = {}
 START_TEXT = """
 Hello {} , I'am a simple file or media rename bot with permanent thumbnail support.
-
-Made by @FayasNoushad
 """
 HELP_TEXT = """
 <b><u>Rename</u></b>
 ➠ Send me any telegram file or media.
 ➠ Choose appropriate option.
+
+➠ Enter new name for media with file type( media or file ) \n\nExample :- <code>sample.mkv | media</code>
 
 <b><u>Set Thumbnail</u></b>
 ➠ Send a photo to make it as custom thumbnail.
@@ -46,23 +46,20 @@ HELP_TEXT = """
 
 <b><u>Show Thumbnail</u></b>
 ➠ Send /showthumb for view current thumbnail.
-
-Made by @FayasNoushad
 """
 ABOUT_TEXT = """
-- **Bot :** `Rename Bot`
-- **Creator :** [Fayas](https://telegram.me/TheFayas)
-- **Channel :** [Fayas Noushad](https://telegram.me/FayasNoushad)
+- **Bot :** `Private Rename Bot`
+- **Creator :** [@OO7ROBot](https://telegram.me/OO7ROBot)
+- **Channel :** [MyTestBotZ](https://telegram.me/MyTestBotZ)
 - **Credits :** `Everyone in this journey`
-- **Source :** [Click here](https://github.com/FayasNoushad/Rename-Bot)
 - **Language :** [Python3](https://python.org)
-- **Library :** [Pyrogram v1.2.0](https://pyrogram.org)
+- **Library :** [Pyrogram v1.2.9](https://pyrogram.org)
 - **Server :** [Heroku](https://heroku.com)
 """
 START_BUTTONS = InlineKeyboardMarkup(
         [[
-        InlineKeyboardButton('Channel', url='https://telegram.me/FayasNoushad'),
-        InlineKeyboardButton('Feedback', url='https://telegram.me/TheFayas')
+       # InlineKeyboardButton('Channel', url='https://telegram.me/FayasNoushad'),
+        InlineKeyboardButton('Feedback', url='https://telegram.me/OO7ROBot')
         ],[
         InlineKeyboardButton('Help', callback_data='help'),
         InlineKeyboardButton('About', callback_data='about'),
@@ -296,8 +293,8 @@ async def rename(bot, message):
     await bot.delete_messages(chat_id=message.chat.id, message_ids=message.reply_to_message.message_id, revoke=True)
     if (" | " in message.text) and (message.reply_to_message is not None):
         file_name, file_type = message.text.split(" | ", 1)
-        if len(file_name) > 64:
-            await message.reply_text(text=f"Limits of telegram file or media name spellings is 64 characters only.")
+        if len(file_name) > 90:
+            await message.reply_text(text=f"Limits of telegram file or media name spellings is 90 characters only.")
             return
         description = "<b>" + file_name + "</b>"
         download_location = DOWNLOAD_LOCATION + "/"
@@ -347,7 +344,7 @@ async def rename(bot, message):
                     video=new_file_name,
                     thumb=thumb_image_path,
                     caption=description,
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚙ Join Updates Channel ⚙', url='https://telegram.me/FayasNoushad')]]),
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Join Updates Channel ', url='https://telegram.me/MyTestBotZ')]]),
                     reply_to_message_id=message.reply_to_message.message_id,
                     progress=progress_for_pyrogram,
                     progress_args=("<code>Downloaded Successfully! Now I am Uploading to Telegram...</code>", a, c_time)
@@ -368,7 +365,7 @@ async def rename(bot, message):
                     document=new_file_name,
                     thumb=thumb_image_path,
                     caption=description,
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('⚙ Join Updates Channel ⚙', url='https://telegram.me/FayasNoushad')]]),
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Join Updates Channel ', url='https://telegram.me/MyTestBotZ')]]),
                     reply_to_message_id=message.reply_to_message.message_id,
                     progress=progress_for_pyrogram,
                     progress_args=("<code>Downloaded Successfully! Now I am Uploading to Telegram...</code>", a, c_time)
